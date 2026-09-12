@@ -2,9 +2,8 @@
 
 int main(void)
 {   
-    char letter;
-    letter = "H";
-    printf("%c\n", letter);
+    char letters[] = "Hello";
+    printf("%s\n", letters);
 
     return 0;
     
