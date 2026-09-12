@@ -2,8 +2,14 @@
 
 int main(void)
 {   
-    char letters[] = "Hello";
-    printf("%s\n", letters);
+    FILE *file;
+    file = fopen("notes.txt", "r");
+    
+    if (file == NULL)
+    {
+        printf("Could not open file");
+        return 1;
+    }
 
     return 0;
     
