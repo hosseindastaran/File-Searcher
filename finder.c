@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 
 int main(void)
 {   
@@ -12,9 +13,14 @@ int main(void)
     }
 
     char line[256];
+    char text[] = "File";
     while (fgets(line,256,file) != NULL)
     {
-        printf("%s", line);
+        if (strstr(line, text) != NULL)
+        {
+            printf("%s", line);
+        }
+        
     }
     
     fclose(file);
