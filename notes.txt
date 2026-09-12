@@ -1,1 +1,5 @@
-Hello my name is Hossein
+Hello from File Searcher
+Linux is great
+I am learning C
+Hossein is learning programming
+File Searcher is written in C
