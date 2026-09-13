@@ -25,3 +25,4 @@ Learning Linux and learning C
 Searching files is useful
 searching text with C
 SEARCHING FILES WITH C
+I am learning C and C is powerful

@@ -20,11 +20,15 @@ int main(void)
     text[newline_index] = '\0';
 
     char line[256];
+    char *result;
+    int line_number = 0;
     while (fgets(line,256,file) != NULL)
-    {
+    {   
+        line_number = line_number + 1;
         if (strstr(line, text) != NULL)
         {
-            printf("%s", line);
+            result = strstr(line, text);
+            printf("%d : %s", line_number , line);
         }
         
     }
