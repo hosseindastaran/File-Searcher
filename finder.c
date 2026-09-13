@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
 
 int main(void)
 {   
@@ -23,11 +24,11 @@ int main(void)
     char *result;
     int line_number = 0;
     while (fgets(line,256,file) != NULL)
-    {   
+    {
+        result = strstr(line, text);
         line_number = line_number + 1;
-        if (strstr(line, text) != NULL)
+        if (result != NULL)
         {
-            result = strstr(line, text);
             printf("%d : %s", line_number , line);
         }
         
