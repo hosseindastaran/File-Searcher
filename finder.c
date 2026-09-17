@@ -2,14 +2,21 @@
 #include <string.h>
 #include <ctype.h>
 
-int main(void)
+int main()
 {   
+
     FILE *file;
-    file = fopen("notes.txt", "r");
+    char namefile[256];
+    printf("Enter a name file : ");
+    fgets(namefile, 256, stdin);
+    int namefile_index = strcspn(namefile, "\n");
+    namefile[namefile_index] = '\0';
+    file = fopen(namefile, "r");
     
+
     if (file == NULL)
     {
-        printf("Could not open file");
+        printf("Could not this open file : %s\n", namefile);
         return 1;
     }
 
@@ -25,10 +32,15 @@ int main(void)
     int line_number = 0;
     while (fgets(line,256,file) != NULL)
     {
+        
         result = strstr(line, text);
         line_number = line_number + 1;
         if (result != NULL)
         {
+            if (isalpha(*(result + strlen(text))))
+            {
+                printf("Next character is a letter.\n");
+            }
             printf("%d : %s", line_number , line);
         }
         
