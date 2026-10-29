@@ -2,6 +2,8 @@
 #include <string.h>
 #include <ctype.h>
 
+int search_file(const char *file_path, const char *search_word);
+
 int main(int argc, char *argv[])
 {
     if (argc == 3)
