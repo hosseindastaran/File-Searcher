@@ -35,6 +35,13 @@ int search_file(const char *file_path, const char *search_word, char search_mode
                     line_match_count++;
                 }
             }
+            else if (search_mode == 's')
+            {
+                if ((match == line || *(match - 1) == ' ') && (*(match + strlen(search_word)) == ' ' || *(match + strlen(search_word)) == '\n' || *(match + strlen(search_word)) == '\0'))
+                {
+                    line_match_count++;
+                }
+            }
 
             match = strstr(match + 1, search_word);
         }
@@ -68,7 +75,7 @@ int main(int argc, char *argv[])
         }
         else if (strcmp(argv[1], "-s") == 0)
         {
-            printf("in the -e\n");
+            search_file(argv[2], argv[3], 's');
         }
     }
     else
