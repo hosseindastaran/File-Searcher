@@ -2,7 +2,7 @@
 #include <string.h>
 #include <ctype.h>
 
-int search_file(const char *file_path, const char *search_word);
+int search_file(const char *file_path, const char *search_word, char search_mode);
 
 int main(int argc, char *argv[])
 {

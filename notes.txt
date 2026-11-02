@@ -1,7 +1,3 @@
-ss hello
-hello ss!
-hello sss 
-hello ss2
-hello xss!
-hello.ss
-ss hello ss!
+hello my friend
+my name is hossein dastaran
+i am from iran.
