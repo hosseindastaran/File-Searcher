@@ -77,10 +77,16 @@ int main(int argc, char *argv[])
         {
             search_file(argv[2], argv[3], 's');
         }
+        else
+        {
+            printf("Error: Unknown option '%s'\n", argv[1]);
+            printf("Usage: ds [-w | -s] <file_path> <search_word>\n");
+            return 1;
+        }
     }
     else
     {
-        printf("Usage: ds <file_path> <search_word>\n");
+        printf("Usage: ds [-w | -s] <file_path> <search_word>\n");
         return 1;
     }
 
