@@ -6,6 +6,12 @@ int search_file(const char *file_path, const char *search_word, char search_mode
 
 int search_file(const char *file_path, const char *search_word, char search_mode)
 {
+    if (search_word[0] == '\0')
+    {
+        printf("Error: Search word cannot be empty.\n");
+        return 1;
+    }
+
     FILE *file = fopen(file_path, "r");
     if (file == NULL)
     {
