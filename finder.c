@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#include <stdlib.h>
 
 int search_file(const char *file_path, const char *search_word, char search_mode);
 
@@ -28,6 +29,13 @@ int search_file(const char *file_path, const char *search_word, char search_mode
     {
         line_start_offset = ftell(file);
 
+        if (line_start_offset == -1L)
+        {
+            printf("Error: Could not determine file position.\n");
+            fclose(file);
+            return 1;
+        }
+
         if (fgets(line, sizeof(line), file) == NULL)
         {
             break;
@@ -35,6 +43,9 @@ int search_file(const char *file_path, const char *search_word, char search_mode
 
         line_counter++;
         int line_match_count = 0;
+        long *offsets = NULL;
+        size_t offsets_count = 0;
+        size_t offsets_capacity = 0;
         char *match = strstr(line, search_word);
 
         while (match != NULL)
@@ -63,7 +74,44 @@ int search_file(const char *file_path, const char *search_word, char search_mode
             if (valid_match)
             {
                 long file_offset = line_start_offset + (match - line);
-                printf("Byte Offset: %ld\n", file_offset);
+
+                if (offsets_count == offsets_capacity)
+                {
+                    if (offsets_capacity > (size_t)-1 / 2)
+                    {
+                        printf("Error: Too many matches.\n");
+                        free(offsets);
+                        fclose(file);
+                        return 1;
+                    }
+
+                    size_t new_capacity = offsets_capacity == 0 ? 8 : offsets_capacity * 2;
+
+                    if (new_capacity > (size_t)-1 / sizeof(*offsets))
+                    {
+                        printf("Error: Too many matches.\n");
+                        free(offsets);
+                        fclose(file);
+                        return 1;
+                    }
+
+                    long *temp = realloc(offsets, new_capacity * sizeof(*offsets));
+
+                    if (temp == NULL)
+                    {
+                        printf("Error: Memory allocation failed.\n");
+                        free(offsets);
+                        fclose(file);
+                        return 1;
+                    }
+
+                    offsets = temp;
+                    offsets_capacity = new_capacity;
+                }
+
+                offsets[offsets_count] = file_offset;
+                offsets_count++;
+
                 line_match_count++;
             }
 
@@ -72,8 +120,14 @@ int search_file(const char *file_path, const char *search_word, char search_mode
         if (line_match_count > 0)
         {
             found_count++;
-            printf("Line %i:%i matches | %s",line_counter, line_match_count, line);
+            printf("Line %i:%i matches | %s", line_counter, line_match_count, line);
+
+            for (size_t i = 0; i < offsets_count; i++)
+            {
+                printf("  Match %zu: Byte Offset %ld\n", i + 1, offsets[i]);
+            }
         }
+        free(offsets);
     }
 
     if (found_count == 0)
